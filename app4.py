@@ -59,7 +59,7 @@ st.markdown(
 
 # Sidebar Logo
 try:
-    small_logo = Image.open("Resources/DALL.E_Logo_NoBKG.jpg")
+    small_logo = Image.open("Resources/DALL.E_Logo_NoBKG.png")
     st.sidebar.image(small_logo, use_column_width=False, width=120)
 except FileNotFoundError:
     st.sidebar.warning("Small logo not found. Please ensure the image is in the correct path.")
