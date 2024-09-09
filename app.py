@@ -13,7 +13,7 @@ This app allows you to input text and run **Sentiment Analysis** and **Agent Wor
 """)
 
 # Define the API URL
-api_url = "https://WE NEED YOU HUGO"
+api_url = "https://deciphering-cb-image-681020458300.europe-west1.run.app/docs"
 
 # Users input text box
 st.subheader("Text to Analyse")

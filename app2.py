@@ -15,7 +15,7 @@ The agents could be households, firms, the financial sector, governments, or cen
 """)
 
 # Define the API URL
-api_url = "https://WE NEED YOU HUGO"
+api_url = "https://deciphering-cb-image-681020458300.europe-west1.run.app/docs"
 
 # Input section
 st.subheader("Input for Analysis")

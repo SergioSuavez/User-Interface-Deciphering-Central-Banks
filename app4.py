@@ -28,6 +28,7 @@ st.markdown(
     .sidebar .sidebar-content {
         background-color: #404040;  /* Dark Gray sidebar background */
         color: #FFFFFF;  /* White text in sidebar */
+        text-align: center;  /* Center the logo in the sidebar */
     }
     .css-1d391kg {
         padding: 10px;
@@ -56,30 +57,40 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# Image for the header and/or logo
-header_image = Image.open("Resources/DALL.E_Logo.jpg")
-st.image(header_image, use_column_width=True)
+# Sidebar Logo
+try:
+    small_logo = Image.open("Resources/DALL.E_Logo.jpg")
+    st.sidebar.image(small_logo, use_column_width=False, width=120)
+except FileNotFoundError:
+    st.sidebar.warning("Small logo not found. Please ensure the image is in the correct path.")
 
-# Title and description
-st.markdown("<h1 class='title'>Deciphering Central Banks</h1>", unsafe_allow_html=True)
-st.markdown("<p class='description'>Text & URL Analysis Tool for Sentiment and Agent Words Detection</p>", unsafe_allow_html=True)
-
-st.markdown("""
-Welcome to the **Deciphering Central Banks** analysis tool!  
-This app allows you to input text or a URL to run **Sentiment Analysis** and **Agent Words Detection**.
-The agents could be households, firms, the financial sector, governments, or central banks.
-""")
-
-# Add a sidebar for navigation and options
+# Sidebar
 st.sidebar.header("Navigation")
 page = st.sidebar.radio("Go to:", ["Home", "FAQs", "About"])
 
-# Define the API URL
+# API URL
 api_url = "https://deciphering-cb-image-681020458300.europe-west1.run.app/docs"
 
-# Page selection logic
+# Pages
 if page == "Home":
-    # Input section
+    # Logo, Title and Description for Home Page
+    try:
+        header_image = Image.open("Resources/DALL.E_Logo.jpg")
+        st.image(header_image, use_column_width=True)
+    except FileNotFoundError:
+        st.warning("Header image not found. Please make sure the image is in the correct path.")
+    
+    # Title and Description
+    st.markdown("<h1 class='title'>Deciphering Central Banks</h1>", unsafe_allow_html=True)
+    st.markdown("<p class='description'>Text & URL Analysis Tool for Sentiment and Agent Words Detection</p>", unsafe_allow_html=True)
+
+    st.markdown("""
+    Welcome to the **Deciphering Central Banks** analysis tool!  
+    This app allows you to input text or a URL to run **Sentiment Analysis** and **Agent Words Detection**.
+    The agents could be households, firms, the financial sector, governments, or central banks.
+    """)
+
+    # Users choice of input
     st.subheader("Input for Analysis")
     input_type = st.radio("Choose input type:", ("Text", "URL"))
 
@@ -124,7 +135,15 @@ if page == "Home":
         else:
             st.warning("Please input some text or a URL for analysis.")
 
+# FAQs page
 elif page == "FAQs":
+    # Banner for FAQs
+    try:
+        banner_image = Image.open("Resources/DALL.E_Banner.jpg")  # Replace with your own banner image path
+        st.image(banner_image, use_column_width=True)
+    except FileNotFoundError:
+        st.warning("Banner image not found. Please ensure the image is in the correct path.")
+
     st.subheader("Frequently Asked Questions")
     st.markdown("""
     **Q: What is Sentiment Analysis?**  
@@ -143,7 +162,15 @@ elif page == "FAQs":
     A: Currently, the analysis is optimized for English text. Support for other languages may be added in future versions.
     """)
 
+# About page
 elif page == "About":
+    # Banner for About
+    try:
+        banner_image = Image.open("Resources/DALL.E_Banner.jpg")
+        st.image(banner_image, use_column_width=True)
+    except FileNotFoundError:
+        st.warning("Banner image not found. Please ensure the image is in the correct path.")
+
     st.subheader("About This Project")
     st.markdown("""
     **Deciphering Central Banks** is an innovative project aimed at using natural language processing (NLP) to analyze communications from central banks and other financial institutions.
@@ -151,6 +178,12 @@ elif page == "About":
     By detecting sentiment and identifying agent words in various texts, we hope to better understand the narratives and insights provided by these institutions.
     
     This tool was developed by **The Bess Team** as part of our efforts to enhance transparency and understanding in the financial sector.
+    
+    **Team Members:**  
+    - Sasha Bessarabova  
+    - Sergio Suarez  
+    - Hugo Rao  
+    - Sébastien Barbieux
     """)
 
 # Footer
