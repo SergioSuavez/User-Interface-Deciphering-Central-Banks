@@ -5,7 +5,7 @@ import pandas as pd
 from PIL import Image
 
 # Page configuration
-st.set_page_config(page_title="Deciphering Central Banks - Text & URL Analysis", layout="centered", page_icon="📊")
+st.set_page_config(page_title="Deciphering Central Banks - Text & URL Analysis", layout="wide", page_icon="📊")
 
 # CSS
 st.markdown(
@@ -15,31 +15,53 @@ st.markdown(
         background-color: #2F2F2F;
         font-family: 'Arial', sans-serif;
     }
-    .title {
-        text-align: center;
-        font-size: 36px;
-        color: #FFFFFF;
-    }
-    .description {
-        text-align: center;
-        font-size: 18px;
-        color: #D3D3D3;
-    }
-    .sidebar .sidebar-content {
-        background-color: #404040;
-        color: #FFFFFF;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-        text-align: center;
+    .css-18e3th9 {
+        padding: 0;
     }
     .css-1d391kg {
-        padding: 10px;
+        padding: 0;
     }
-    h2, h3, h4 {
+    .header {
+        background-color: #404040;
+        padding: 10px 30px;
+        text-align: center;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .header img {
+        display: inline-block;
+        margin-right: 20px;
+    }
+    .nav-links {
+        display: flex;
+        gap: 20px;
+    }
+    .nav-link {
+        margin: 0 15px;
+        text-decoration: none;
+        color: #FFFFFF;
+        font-size: 18px;
+        font-weight: bold;
+    }
+    .nav-link:hover {
         color: #D3D3D3;
+    }
+    .content {
+        padding-top: 100px;
+    }
+    .footer {
+        background-color: #404040;
+        padding: 10px;
+        text-align: center;
+        color: #FFFFFF;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
     }
     .stButton>button {
         background-color: #808080;
@@ -57,36 +79,55 @@ st.markdown(
         background-color: #333333;
         color: #FFFFFF;
     }
-    .footer {
-        background-color: #404040;
-        color: white;
-        text-align: center;
-        padding: 10px;
-        position: fixed;
-        left: 0;
-        bottom: 0;
-        width: 100%;
+    .banner-image {
+        width: 80%;
+        height: auto;
+        max-height: 100px;
+        object-fit: cover;
     }
     </style>
     """,
     unsafe_allow_html=True
 )
 
+# Function to navigate between pages
+def navigate_to(page_name):
+    st.experimental_set_query_params(page=page_name)
+
+# Header with Logo and Page links for navigation
+st.markdown("<div class='header'>", unsafe_allow_html=True)
+
 # Logo
 try:
     small_logo = Image.open("Resources/DALL.E_Logo_NoBKG.png")
-    st.sidebar.image(small_logo, use_column_width=False, width=120)
+    st.image(small_logo, use_column_width=False, width=80)
 except FileNotFoundError:
-    st.sidebar.warning("Small logo not found. Please ensure the image is in the correct path.")
+    st.warning("Logo not found. Please ensure the image is in the correct path.")
 
-# Sidebar
-st.sidebar.header("Navigation")
-page = st.sidebar.radio("Go to:", ["Home", "FAQs", "About"])
+# Page links
+st.markdown(
+    """
+    <div class='nav-links'>
+        <a href='?page=Home' class='nav-link'>Home</a>
+        <a href='?page=FAQs' class='nav-link'>FAQs</a>
+        <a href='?page=About' class='nav-link'>About</a>
+    </div>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
+# Query Parameters
+query_params = st.experimental_get_query_params()
+page = query_params.get('page', ['Home'])[0]
 
 # API URL
 api_url = "https://deciphering-cb-image-681020458300.europe-west1.run.app/docs"
 
-# Pages
+# Start of padding
+st.markdown("<div class='content'>", unsafe_allow_html=True)
+
+# Home page
 if page == "Home":
     # Banner
     try:
@@ -105,7 +146,7 @@ if page == "Home":
     The agents could be households, firms, the financial sector, governments, or central banks.
     """)
 
-    # Users choice of input
+    # User input section
     st.subheader("Input for Analysis")
     input_type = st.radio("Choose input type:", ("Text", "URL"))
 
@@ -139,7 +180,7 @@ if page == "Home":
                         "Sentiment": sentiments
                     })
 
-                    # Display table of results
+                    # Display results
                     st.markdown("### Analysis Results")
                     st.dataframe(df)
 
@@ -154,10 +195,11 @@ if page == "Home":
 elif page == "FAQs":
     # Banner
     try:
-        banner_image = Image.open("Resources/DALL.E_Banner.jpg")  # Replace with your own banner image path
+        banner_image = Image.open("Resources/DALL.E_Banner.jpg")
         st.image(banner_image, use_column_width=True)
     except FileNotFoundError:
         st.warning("Banner image not found. Please ensure the image is in the correct path.")
+
     # Content
     st.subheader("Frequently Asked Questions")
     st.markdown("""
@@ -185,6 +227,7 @@ elif page == "About":
         st.image(banner_image, use_column_width=True)
     except FileNotFoundError:
         st.warning("Banner image not found. Please ensure the image is in the correct path.")
+
     # Content
     st.subheader("About This Project")
     st.markdown("""
@@ -205,8 +248,11 @@ elif page == "About":
 st.markdown(
     """
     <div class='footer'>
-        <p>Deciphering Central Banks Project - Created by The Bess Team</p>
+    <p>Deciphering Central Banks Project - Created by The Bess Team</p>
     </div>
     """,
     unsafe_allow_html=True
 )
+
+# End the padding
+st.markdown("</div>", unsafe_allow_html=True)
