@@ -64,4 +64,4 @@ if st.button("Analyze"):
 
 # Footer
 st.markdown("---")
-st.markdown("**Created by [The Bess Team] - Deciphering Central Banks Project**")
+st.markdown("**Created by The Bess Team - Deciphering Central Banks Project**")
