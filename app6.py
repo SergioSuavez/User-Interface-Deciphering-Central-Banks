@@ -5,9 +5,9 @@ import pandas as pd
 from PIL import Image
 
 # Page configuration
-st.set_page_config(page_title="Deciphering Central Banks - Text & URL Analysis", layout="wide", page_icon="📊")
+st.set_page_config(page_title="Deciphering Central Banks - Text & URL Analysis", layout="centered", page_icon="📊")
 
-# CSS
+# CSS for styling
 st.markdown(
     """
     <style>
@@ -15,53 +15,40 @@ st.markdown(
         background-color: #2F2F2F;
         font-family: 'Arial', sans-serif;
     }
-    .css-18e3th9 {
-        padding: 0;
-    }
-    .css-1d391kg {
-        padding: 0;
-    }
-    .header {
-        background-color: #404040;
-        padding: 10px 30px;
+    .title {
         text-align: center;
-        position: fixed;
-        top: 0;
-        width: 100%;
-        z-index: 1000;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    .header img {
-        display: inline-block;
-        margin-right: 20px;
-    }
-    .nav-links {
-        display: flex;
-        gap: 20px;
-    }
-    .nav-link {
-        margin: 0 15px;
-        text-decoration: none;
+        font-size: 36px;
         color: #FFFFFF;
-        font-size: 18px;
-        font-weight: bold;
     }
-    .nav-link:hover {
+    .description {
+        text-align: center;
+        font-size: 18px;
         color: #D3D3D3;
     }
-    .content {
-        padding-top: 100px;
-    }
-    .footer {
-        background-color: #404040;
-        padding: 10px;
-        text-align: center;
+    .sidebar .sidebar-content {
+        background-color: #000000;
         color: #FFFFFF;
-        position: fixed;
-        bottom: 0;
-        width: 100%;
+        text-align: center;
+    }
+    .css-1d391kg {
+        padding: 10px;
+    }
+    .st-emotion-cache-1gwvy71 {
+    padding: 20px 6.5rem 6rem;
+    }
+    .st-emotion-cache-12fmjuu {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height: 3.75rem;
+    background: #000000;
+    outline: none;
+    z-index: 999990;
+    display: block;
+    }
+    h2, h3, h4 {
+        color: #D3D3D3;
     }
     .stButton>button {
         background-color: #808080;
@@ -79,72 +66,45 @@ st.markdown(
         background-color: #333333;
         color: #FFFFFF;
     }
-    .banner-image {
-        width: 1200px;
-        height: 50px;
-    }
     </style>
     """,
     unsafe_allow_html=True
 )
 
-# Function to navigate between pages
-def navigate_to(page_name):
-    st.experimental_set_query_params(page=page_name)
-
-# Header with Logo and Page links for navigation
-st.markdown("<div class='header'>", unsafe_allow_html=True)
-
-# Logo
+# Sidebar Logo
 try:
     small_logo = Image.open("Resources/DALL.E_Logo_NoBKG.png")
-    st.image(small_logo, use_column_width=False, width=80)
+    st.sidebar.image(small_logo, use_column_width=False, width=120)
 except FileNotFoundError:
-    st.warning("Logo not found. Please ensure the image is in the correct path.")
+    st.sidebar.warning("Small logo not found. Please ensure the image is in the correct path.")
 
-# Page links
-st.markdown(
-    """
-    <div class='nav-links'>
-        <a href='?page=Home' class='nav-link'>Home</a>
-        <a href='?page=FAQs' class='nav-link'>FAQs</a>
-        <a href='?page=About' class='nav-link'>About</a>
-    </div>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
-
-# Query Parameters
-query_params = st.experimental_get_query_params()
-page = query_params.get('page', ['Home'])[0]
+# Sidebar
+st.sidebar.header("Navigation")
+page = st.sidebar.selectbox("Go to:", ["Home", "FAQs", "About"])
 
 # API URL
 api_url = "https://deciphering-cb-image-681020458300.europe-west1.run.app/docs"
 
-# Start of padding
-st.markdown("<div class='content'>", unsafe_allow_html=True)
-
-# Home page
+# Pages
 if page == "Home":
     # Banner
     try:
         header_image = Image.open("Resources/DALL.E_Banner.jpg")
-        st.image(header_image)
+        st.image(header_image, use_column_width=True)
     except FileNotFoundError:
         st.warning("Header image not found. Please make sure the image is in the correct path.")
     
     # Title and Description
     st.markdown("<h1 class='title'>Deciphering Central Banks</h1>", unsafe_allow_html=True)
-    st.markdown("<p class='description'>Text & URL Analysis Tool for Sentiment and Agent Words Detection</p>", unsafe_allow_html=True)
+    st.markdown("<p class='description'>Text & URL Analysis Tool for Sentiment and Economic Agent Detection</p>", unsafe_allow_html=True)
 
     st.markdown("""
     Welcome to the **Deciphering Central Banks** analysis tool!  
-    This app allows you to input text or a URL to run **Sentiment Analysis** and **Agent Words Detection**.
-    The agents could be households, firms, the financial sector, governments, or central banks.
+    This app allows you to input text or a URL to run **Sentiment Analysis** and **Economic Agent Detection**.
+    The agents could be households, firms, the financial sector, governments and central banks.
     """)
 
-    # User input section
+    # Users choice of input
     st.subheader("Input for Analysis")
     input_type = st.radio("Choose input type:", ("Text", "URL"))
 
@@ -178,7 +138,7 @@ if page == "Home":
                         "Sentiment": sentiments
                     })
 
-                    # Display results
+                    # Display table of results
                     st.markdown("### Analysis Results")
                     st.dataframe(df)
 
@@ -193,11 +153,10 @@ if page == "Home":
 elif page == "FAQs":
     # Banner
     try:
-        banner_image = Image.open("Resources/DALL.E_Banner.jpg")
-        st.image(banner_image)
+        banner_image = Image.open("Resources/DALL.E_Banner.jpg")  # Replace with your own banner image path
+        st.image(banner_image, use_column_width=True)
     except FileNotFoundError:
         st.warning("Banner image not found. Please ensure the image is in the correct path.")
-
     # Content
     st.subheader("Frequently Asked Questions")
     st.markdown("""
@@ -222,10 +181,9 @@ elif page == "About":
     # Banner
     try:
         banner_image = Image.open("Resources/DALL.E_Banner.jpg")
-        st.image(banner_image)
+        st.image(banner_image, use_column_width=True)
     except FileNotFoundError:
         st.warning("Banner image not found. Please ensure the image is in the correct path.")
-
     # Content
     st.subheader("About This Project")
     st.markdown("""
@@ -242,15 +200,3 @@ elif page == "About":
     - Sébastien Barbieux
     """)
 
-# Footer
-st.markdown(
-    """
-    <div class='footer'>
-    <p>Deciphering Central Banks Project - Created by The Bess Team</p>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
-
-# End the padding
-st.markdown("</div>", unsafe_allow_html=True)

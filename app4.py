@@ -23,23 +23,46 @@ st.markdown(
     .description {
         text-align: center;
         font-size: 18px;
-        color: #D3D3D3;
+        color: #FFFFFF;
     }
     .sidebar .sidebar-content {
-        background-color: #404040;
-        color: #FFFFFF;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
+        background-color: #000000;
+        color: #000000;
         text-align: center;
     }
     .css-1d391kg {
         padding: 10px;
     }
+    .st-bs {
+    color: #FFFFFF;
+    }
+    .st-emotion-cache-1gwvy71 {
+    padding: 20px 6.5rem 6rem;
+    }
+    .st-emotion-cache-12fmjuu {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height: 3.75rem;
+    background: #000000;
+    outline: none;
+    z-index: 999990;
+    display: block;
+    }
+    .st-emotion-cache-1r4qj8v {
+    position: absolute;
+    background: rgb(255, 255, 255);
+    color: rgb(255 255 255);
+    inset: 0px;
+    color-scheme: light;
+    overflow: hidden;
+    }
+    .st-b6 {
+    color: #FFFFFF;
+    }
     h2, h3, h4 {
-        color: #D3D3D3;
+        color: #FFFFFF;
     }
     .stButton>button {
         background-color: #808080;
@@ -57,16 +80,6 @@ st.markdown(
         background-color: #333333;
         color: #FFFFFF;
     }
-    .footer {
-        background-color: #404040;
-        color: white;
-        text-align: center;
-        padding: 10px;
-        position: fixed;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-    }
     </style>
     """,
     unsafe_allow_html=True
@@ -81,7 +94,7 @@ except FileNotFoundError:
 
 # Sidebar
 st.sidebar.header("Navigation")
-page = st.sidebar.radio("Go to:", ["Home", "FAQs", "About"])
+page = st.sidebar.selectbox("Go to:", ["Home", "FAQs", "About"])
 
 # API URL
 api_url = "https://deciphering-cb-image-681020458300.europe-west1.run.app/docs"
@@ -200,13 +213,3 @@ elif page == "About":
     - Hugo Rao  
     - Sébastien Barbieux
     """)
-
-# Footer
-st.markdown(
-    """
-    <div class='footer'>
-        <p>Deciphering Central Banks Project - Created by The Bess Team</p>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
