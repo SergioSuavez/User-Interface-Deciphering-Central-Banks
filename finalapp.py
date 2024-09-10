@@ -7,7 +7,7 @@ from PIL import Image
 # Page configuration
 st.set_page_config(page_title="Deciphering Central Banks - Text & URL Analysis", layout="centered", page_icon="📊")
 
-# CSS for styling
+# CSS
 st.markdown(
     """
     <style>
@@ -153,7 +153,7 @@ if page == "Home":
 elif page == "FAQs":
     # Banner
     try:
-        banner_image = Image.open("Resources/DALL.E_Banner.jpg")  # Replace with your own banner image path
+        banner_image = Image.open("Resources/DALL.E_Banner.jpg")
         st.image(banner_image, use_column_width=True)
     except FileNotFoundError:
         st.warning("Banner image not found. Please ensure the image is in the correct path.")
@@ -164,7 +164,7 @@ elif page == "FAQs":
     A: Sentiment Analysis determines the emotional tone behind a body of text, helping to understand opinions, attitudes, and emotions.
 
     **Q: What are Agent Words?**  
-    A: Agent words in this context refer to entities such as households, firms, the financial sector, governments, or central banks identified within the text.
+    A: Economic agents are entities that play an active role in the macroeconomic processes, and are all affected by the central bank monetary policy. We categorise them into households, firms, the financial sector, governments and central banks.
 
     **Q: What kind of text or URL can I input?**  
     A: You can input any text or URL that contains data related to central banks, financial markets, economic analysis, or similar topics.
