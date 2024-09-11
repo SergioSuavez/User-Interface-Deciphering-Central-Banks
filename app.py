@@ -5,7 +5,7 @@ import pandas as pd
 from PIL import Image
 
 # Page configuration
-st.set_page_config(page_title="Deciphering Central Banks - Text & URL Analysis", layout="centered", page_icon="📊")
+st.set_page_config(page_title="Deciphering Central Banks - Text & URL Analysis", layout="wide", page_icon="📊")
 
 # CSS
 st.markdown(
@@ -83,7 +83,7 @@ st.sidebar.header("Navigation")
 page = st.sidebar.selectbox("Go to:", ["Home", "FAQs", "About"])
 
 # API URL
-api_url = "https://deciphering-cb-image-681020458300.europe-west1.run.app/docs"
+api_url = "https://deciphering-cb-image-multithread-681020458300.europe-west1.run.app"
 
 # Pages
 if page == "Home":
@@ -111,33 +111,31 @@ if page == "Home":
     user_input = None
     if input_type == "Text":
         user_input = st.text_area("Paste the text you want to analyze:", height=200)
+        api_url = f"{api_url}/predict"
+        params ={'text': user_input}
     else:
         user_input = st.text_input("Paste the URL you want to analyze:")
+        api_url = f"{api_url}/predict_by_url"
+        params ={'url': user_input}
 
     # Analyse button
     if st.button("Analyze"):
         if user_input:
             # Send request to the API
             data = {"input": user_input, "type": input_type.lower()}
+            #print(data)
             headers = {'Content-Type': 'application/json'}
 
-            try:
-                response = requests.post(api_url, headers=headers, data=json.dumps(data))
+            #get
 
+            try:
+                response = requests.get(api_url, params=params)
                 if response.status_code == 200:
                     # Response from the API
                     result = response.json()
-                    text_fragments = result.get("text_fragments", [])
-                    sentiments = result.get("sentiments", [])
-                    agents = result.get("agents", [])
-
-                    # DataFrame for displaying results in a table
-                    df = pd.DataFrame({
-                        "Text": text_fragments,
-                        "Agent": agents,
-                        "Sentiment": sentiments
-                    })
-
+                    df = pd.DataFrame(result)
+                    df.columns = ['Sentence', 'Agent', 'Agent Probability', 'Sentiment', 'Sentiment Probability']
+                    
                     # Display table of results
                     st.markdown("### Analysis Results")
                     st.dataframe(df)
@@ -163,7 +161,7 @@ elif page == "FAQs":
     **Q: What is Sentiment Analysis?**  
     A: Sentiment Analysis determines the emotional tone behind a body of text, helping to understand opinions, attitudes, and emotions.
 
-    **Q: What are Agent Words?**  
+    **Q: What are Economic Agents?**  
     A: Economic agents are entities that play an active role in the macroeconomic processes, and are all affected by the central bank monetary policy. We categorise them into households, firms, the financial sector, governments and central banks.
 
     **Q: What kind of text or URL can I input?**  
@@ -191,12 +189,10 @@ elif page == "About":
     
     By detecting sentiment and identifying agent words in various texts, we hope to better understand the narratives and insights provided by these institutions.
     
-    This tool was developed by **The Bess Team** as part of our efforts to enhance transparency and understanding in the financial sector.
-    
-    **Team Members:**  
+    This tool was developed by the following Le Wagon students:
+     
     - Sasha Bessarabova  
     - Sergio Suarez  
     - Hugo Rao  
     - Sébastien Barbieux
     """)
-
