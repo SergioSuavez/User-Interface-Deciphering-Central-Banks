@@ -112,7 +112,7 @@ if page == "Home":
     if input_type == "Text":
         user_input = st.text_area("Paste the text you want to analyze:", height=200)
         api_url = f"{api_url}/predict"
-        params ={'text': user_input}
+        body = {'text': user_input}
     else:
         user_input = st.text_input("Paste the URL you want to analyze:")
         api_url = f"{api_url}/predict_by_url"
@@ -122,17 +122,13 @@ if page == "Home":
     if st.button("Analyze"):
         if user_input:
             # Send request to the API
-            data = {"input": user_input, "type": input_type.lower()}
-            #print(data)
-            headers = {'Content-Type': 'application/json'}
-
-            #get
-
             try:
-                response = requests.get(api_url, params=params)
-                if response.status_code == 200:
+                if input_type == "Text":
+                    st.write(api_url)
+                    response = requests.post(api_url, json=str(user_input))            
                     # Response from the API
-                    result = response.json()
+                    result = response.content.decode('utf-8').encode('ascii', 'ignore').decode('ascii')
+                    result = json.loads(result)
                     if result == []:
                         st.error("Error: Text is not significant.")
                     else:
@@ -141,7 +137,20 @@ if page == "Home":
                     
                         # Display table of results
                         st.markdown("### Analysis Results")
-                        st.dataframe(df)                  
+                        st.dataframe(df)    
+                elif input_type == "URL":
+                    st.write(api_url)
+                    response = requests.get(api_url, params=params) 
+                    result = response.json()                       
+                    if result == []:
+                        st.error("Error: Text is not significant.")
+                    else:
+                        df = pd.DataFrame(result)
+                        df.columns = ['Sentence', 'Agent', 'Agent Probability', 'Sentiment', 'Sentiment Probability']
+                    
+                        # Display table of results
+                        st.markdown("### Analysis Results")
+                        st.dataframe(df)          
                 else:
                     st.error("Error: Could not retrieve results from the API.")
             except Exception as e:
