@@ -124,33 +124,31 @@ if page == "Home":
             # Send request to the API
             try:
                 if input_type == "Text":
-                    st.write(api_url)
-                    response = requests.post(api_url, json=str(user_input))            
                     # Response from the API
+                    response = requests.post(api_url, json=str(user_input))            
                     result = response.content.decode('utf-8').encode('ascii', 'ignore').decode('ascii')
                     result = json.loads(result)
                     if result == []:
                         st.error("Error: Text is not significant.")
                     else:
                         df = pd.DataFrame(result)
-                        df.columns = ['Sentence', 'Agent', 'Agent Probability', 'Sentiment', 'Sentiment Probability']
-                    
+                        df.columns = ['Sentence', 'Agent', 'Agent Probability', 'Sentiment', 'Sentiment Probability']                    
                         # Display table of results
                         st.markdown("### Analysis Results")
                         st.dataframe(df)    
+
                 elif input_type == "URL":
-                    st.write(api_url)
+                    # Response from the API
                     response = requests.get(api_url, params=params) 
                     result = response.json()                       
                     if result == []:
                         st.error("Error: Text is not significant.")
                     else:
                         df = pd.DataFrame(result)
-                        df.columns = ['Sentence', 'Agent', 'Agent Probability', 'Sentiment', 'Sentiment Probability']
-                    
+                        df.columns = ['Sentence', 'Agent', 'Agent Probability', 'Sentiment', 'Sentiment Probability']                  
                         # Display table of results
                         st.markdown("### Analysis Results")
-                        st.dataframe(df)          
+                        st.dataframe(df)       
                 else:
                     st.error("Error: Could not retrieve results from the API.")
             except Exception as e:
