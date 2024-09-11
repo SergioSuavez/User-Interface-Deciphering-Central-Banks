@@ -133,13 +133,15 @@ if page == "Home":
                 if response.status_code == 200:
                     # Response from the API
                     result = response.json()
-                    df = pd.DataFrame(result)
-                    df.columns = ['Sentence', 'Agent', 'Agent Probability', 'Sentiment', 'Sentiment Probability']
+                    if result == []:
+                        st.error("Error: Text is not significant.")
+                    else:
+                        df = pd.DataFrame(result)
+                        df.columns = ['Sentence', 'Agent', 'Agent Probability', 'Sentiment', 'Sentiment Probability']
                     
-                    # Display table of results
-                    st.markdown("### Analysis Results")
-                    st.dataframe(df)
-
+                        # Display table of results
+                        st.markdown("### Analysis Results")
+                        st.dataframe(df)                  
                 else:
                     st.error("Error: Could not retrieve results from the API.")
             except Exception as e:
