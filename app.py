@@ -96,12 +96,12 @@ if page == "Home":
     
     # Title and Description
     st.markdown("<h1 class='title'>Deciphering Central Banks</h1>", unsafe_allow_html=True)
-    st.markdown("<p class='description'>Text & URL Analysis Tool for Sentiment and Economic Agent Detection</p>", unsafe_allow_html=True)
+    st.markdown("<p class='description'>Tool for Sentiment and Economic Agent Detection</p>", unsafe_allow_html=True)
 
     st.markdown("""
-    Welcome to the **Deciphering Central Banks** analysis tool!  
+    Welcome to the **Deciphering Central Banks** tool!  
     This app allows you to input text or a URL to run **Sentiment Analysis** and **Economic Agent Detection**.
-    The agents could be households, firms, the financial sector, governments and central banks.
+    The sentiment is split into positive and negative and the economic agents are categorised into households, firms, the financial sector, governments and central banks.
     """)
 
     # Users choice of input
